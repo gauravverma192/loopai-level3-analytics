@@ -1,9 +1,12 @@
 import { useCallback, useEffect, useState } from 'react';
 import { api } from '../api';
-import type { HealthResponse } from '../types/index';
+import type { StoreFilters } from '../constants/filterOptions';
+import type { StoreListResponse } from '../types';
+import { useDebouncedValue } from './useDebouncedValue';
 
-export function useHealth() {
-  const [data, setData] = useState<HealthResponse | null>(null);
+export function useStores(filters: StoreFilters) {
+  const debouncedFilters = useDebouncedValue(filters, 300);
+  const [data, setData] = useState<StoreListResponse | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -11,14 +14,14 @@ export function useHealth() {
     setLoading(true);
     setError(null);
     try {
-      setData(await api.getHealth());
+      setData(await api.getStores(debouncedFilters));
     } catch (err) {
       setError((err as Error).message);
       setData(null);
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [debouncedFilters]);
 
   useEffect(() => {
     void refresh();

@@ -30,6 +30,12 @@ export interface MockStoresResponse {
   stores: MockStore[];
 }
 
+export interface MockStoreListParams {
+  chain?: string;
+  platform?: string;
+  status?: string;
+}
+
 export interface MockStoreMetrics {
   store_id: string;
   total_orders_24h: number;
@@ -63,6 +69,19 @@ export interface MockOrder {
 export interface MockStoreOrdersResponse {
   orders: MockOrder[];
   total: number;
+}
+
+export interface MockOrdersResponse {
+  orders: MockOrder[];
+  total: number;
+}
+
+export interface MockOrderListParams {
+  store_id?: string;
+  platform?: string;
+  status?: string;
+  limit?: number;
+  offset?: number;
 }
 
 export type MockBatchRequestType = 'store' | 'orders' | 'metrics';

@@ -3,6 +3,9 @@ import type {
   MockApiErrorBody,
   MockBatchRequest,
   MockBatchResponse,
+  MockOrderListParams,
+  MockOrdersResponse,
+  MockStoreListParams,
   MockStoreMetrics,
   MockStoreOrdersResponse,
   MockStoresResponse,
@@ -44,8 +47,26 @@ export class MockApiClient {
     return response.json() as Promise<T>;
   }
 
-  getStores(): Promise<MockStoresResponse> {
-    return this.fetchJson<MockStoresResponse>('/api/stores');
+  getStores(params: MockStoreListParams = {}): Promise<MockStoresResponse> {
+    const searchParams = new URLSearchParams();
+    if (params.chain) searchParams.set('chain', params.chain);
+    if (params.platform) searchParams.set('platform', params.platform);
+    if (params.status) searchParams.set('status', params.status);
+    const query = searchParams.toString();
+    const path = query ? `/api/stores?${query}` : '/api/stores';
+    return this.fetchJson<MockStoresResponse>(path);
+  }
+
+  getOrders(params: MockOrderListParams = {}): Promise<MockOrdersResponse> {
+    const searchParams = new URLSearchParams();
+    if (params.store_id) searchParams.set('store_id', params.store_id);
+    if (params.platform) searchParams.set('platform', params.platform);
+    if (params.status) searchParams.set('status', params.status);
+    if (params.limit != null) searchParams.set('limit', String(params.limit));
+    if (params.offset != null) searchParams.set('offset', String(params.offset));
+    const query = searchParams.toString();
+    const path = query ? `/api/orders?${query}` : '/api/orders';
+    return this.fetchJson<MockOrdersResponse>(path);
   }
 
   batch(requests: MockBatchRequest[]): Promise<MockBatchResponse> {
@@ -71,7 +92,7 @@ export class MockApiClient {
 
 export type MockApiClientLike = Pick<
   MockApiClient,
-  'getStores' | 'batch' | 'getStoreOrders' | 'getStoreMetrics'
+  'getStores' | 'getOrders' | 'batch' | 'getStoreOrders' | 'getStoreMetrics'
 >;
 
 export const mockApiClient = new MockApiClient();

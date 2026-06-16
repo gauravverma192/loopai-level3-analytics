@@ -4,6 +4,9 @@ export const MOCK_API_DOCS_URL = 'https://assessment-6xdhr.ondigitalocean.app/do
 
 export const ROUTES = {
   dashboard: '/',
+  orders: '/orders',
+  stores: '/stores',
+  storeDetail: (storeId: string) => `/stores/${storeId}`,
 } as const;
 
 export const UI_COPY = {
@@ -12,6 +15,15 @@ export const UI_COPY = {
   healthError: 'API unreachable',
   loadingHealth: 'Checking API…',
   dashboardHeading: 'Dashboard',
+  ordersHeading: 'Orders',
+  ordersSubtitle: 'Browse orders across your store network.',
+  ordersPanelSubtitle: 'Filter by store, platform, or status.',
+  storesHeading: 'Stores',
+  storesSubtitle: 'View and manage stores in your network.',
+  storesPanelSubtitle: 'Filter by chain, platform, or status.',
+  storeDetailSubtitle: 'Store performance and hourly trends',
+  storeTrendsHeading: '24-hour order trends',
+  storeTrendsSubtitle: 'Hourly order volume and revenue for this store',
   loadingDashboard: 'Loading dashboard…',
   dashboardError: 'Dashboard unavailable',
   cacheFresh: 'Fresh data',

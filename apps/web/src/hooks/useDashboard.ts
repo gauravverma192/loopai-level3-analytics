@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useLayoutEffect, useState } from 'react';
 import { api } from '../api';
 import type { DashboardResponse } from '../types/index';
 
@@ -20,7 +20,7 @@ export function useDashboard() {
     }
   }, []);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     void refresh();
   }, [refresh]);
 

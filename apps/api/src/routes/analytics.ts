@@ -6,6 +6,8 @@ import { analyticsService } from '../services/analyticsService.js';
  * - GET  /api/analytics/dashboard
  * - POST /api/analytics/batch
  * - GET  /api/analytics/trends/:storeId
+ * - GET  /api/analytics/stores
+ * - GET  /api/analytics/orders
  */
 export function createAnalyticsRouter(): Router {
   const router = Router();
@@ -19,18 +21,40 @@ export function createAnalyticsRouter(): Router {
     }
   });
 
-  router.post('/batch', (_req, res) => {
-    res.status(501).json({
-      error: 'Batch endpoint not implemented yet',
-      code: 'NOT_IMPLEMENTED',
-    });
+  router.post('/batch', async (req, res, next) => {
+    try {
+      const batch = await analyticsService.getBatch(req.body?.storeIds);
+      res.json(batch);
+    } catch (err) {
+      next(err);
+    }
   });
 
-  router.get('/trends/:storeId', (_req, res) => {
-    res.status(501).json({
-      error: 'Trends endpoint not implemented yet',
-      code: 'NOT_IMPLEMENTED',
-    });
+  router.get('/trends/:storeId', async (req, res, next) => {
+    try {
+      const trends = await analyticsService.getTrends(req.params.storeId);
+      res.json(trends);
+    } catch (err) {
+      next(err);
+    }
+  });
+
+  router.get('/stores', async (req, res, next) => {
+    try {
+      const stores = await analyticsService.getStores(req.query as Record<string, unknown>);
+      res.json(stores);
+    } catch (err) {
+      next(err);
+    }
+  });
+
+  router.get('/orders', async (req, res, next) => {
+    try {
+      const orders = await analyticsService.getOrders(req.query as Record<string, unknown>);
+      res.json(orders);
+    } catch (err) {
+      next(err);
+    }
   });
 
   return router;
