@@ -1,0 +1,16 @@
+node_modules/
+dist/
+api/index.js
+build/
+coverage/
+.vercel/
+test-results/
+playwright-report/
+playwright/.cache/
+*.log
+.DS_Store
+.env
+.env.local
+.env.*.local
+*.tsbuildinfo
+.vercel
