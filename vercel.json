@@ -1,7 +1,7 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "buildCommand": "pnpm build:vercel-api && pnpm --filter @app/web build",
+  "buildCommand": "npx pnpm@10.12.1 build:vercel-api && npx pnpm@10.12.1 --filter @app/web build",
   "outputDirectory": "apps/web/dist",
-  "installCommand": "pnpm install",
+  "installCommand": "npx pnpm@10.12.1 install",
   "rewrites": [{ "source": "/api/(.*)", "destination": "/api" }]
 }
